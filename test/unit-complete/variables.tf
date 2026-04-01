@@ -252,3 +252,39 @@ variable "app_installations" {
   description = "A list of GitHub App IDs to be installed in this repository."
   default     = []
 }
+
+variable "environment_production_name" {
+  description = "The name of the production environment."
+  type        = string
+  default     = "production"
+}
+
+variable "environment_staging_name" {
+  description = "The name of the staging environment."
+  type        = string
+  default     = "staging"
+}
+
+variable "environment_secret_name" {
+  description = "The name of the environment secret."
+  type        = string
+  default     = "ENV_SECRET"
+}
+
+variable "environment_secret_text" {
+  description = "The value of the environment secret."
+  type        = string
+  default     = "env-secret-42"
+}
+
+variable "environment_variable_name" {
+  description = "The name of the environment variable."
+  type        = string
+  default     = "REGION"
+}
+
+variable "environment_variable_value" {
+  description = "The value of the environment variable."
+  type        = string
+  default     = "us-east-1"
+}

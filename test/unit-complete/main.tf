@@ -158,6 +158,41 @@ module "repository" {
   autolink_references = var.autolink_references
 
   app_installations = var.app_installations
+
+  environments = [
+    {
+      name                = var.environment_production_name
+      wait_timer          = 10
+      can_admins_bypass   = false
+      prevent_self_review = true
+      deployment_branch_policy = {
+        protected_branches     = false
+        custom_branch_policies = true
+      }
+    },
+    {
+      name = var.environment_staging_name
+    }
+  ]
+
+  environment_deployment_policies = [
+    {
+      environment    = var.environment_production_name
+      branch_pattern = "main"
+    },
+    {
+      environment    = var.environment_production_name
+      tag_pattern    = "v*"
+    }
+  ]
+
+  environment_plaintext_secrets = {
+    "${var.environment_production_name}:${var.environment_secret_name}" = var.environment_secret_text
+  }
+
+  environment_variables = {
+    "${var.environment_staging_name}:${var.environment_variable_name}" = var.environment_variable_value
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

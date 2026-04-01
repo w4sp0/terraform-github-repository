@@ -84,6 +84,26 @@ output "app_installations" {
   description = "A map of deploy app installations keyed by installation id."
 }
 
+output "environments" {
+  value       = github_repository_environment.environment
+  description = "A map of environment objects keyed by environment name."
+}
+
+output "environment_deployment_policies" {
+  value       = github_repository_environment_deployment_policy.deployment_policy
+  description = "A map of deployment policy objects."
+}
+
+output "environment_secrets" {
+  value       = [for secret in github_actions_environment_secret.environment_secret : "${secret.environment}:${secret.secret_name}"]
+  description = "List of environment secrets available."
+}
+
+output "environment_variables" {
+  value       = github_actions_environment_variable.environment_variable
+  description = "A map of environment variable objects."
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # OUTPUT MODULE CONFIGURATION
 # ----------------------------------------------------------------------------------------------------------------------
