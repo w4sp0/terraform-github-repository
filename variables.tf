@@ -107,6 +107,7 @@ variable "defaults" {
   type        = any
   default     = {}
 }
+
 variable "web_commit_signoff_required" {
   description = "Require commit signoff for web commit. (Default: false). Set to null to inherit from org settings"
   type        = bool
@@ -116,7 +117,7 @@ variable "web_commit_signoff_required" {
 variable "has_downloads" {
   description = "(Optional) Set to true to enable the (deprecated) downloads features on the repository. (Default: false)"
   type        = bool
-  default     = null
+  default     = false
 }
 
 variable "auto_init" {
@@ -565,6 +566,115 @@ variable "app_installations" {
   type        = set(string)
   description = "(Optional) A list of GitHub App IDs to be installed in this repository."
   default     = []
+}
+
+variable "environments" {
+  description = "(Optional) A list of deployment environments to create for this repository."
+  type        = any
+
+  # We can't use a detailed type specification due to a terraform limitation. However, this might be changed in a future
+  # Terraform version. See https://github.com/hashicorp/terraform/issues/19898 and https://github.com/hashicorp/terraform/issues/22449
+  #
+  # type = list(object({
+  #   name                    = string
+  #   wait_timer              = optional(number)
+  #   can_admins_bypass       = optional(bool, true)
+  #   prevent_self_review     = optional(bool, false)
+  #   reviewers               = optional(object({
+  #     teams = optional(list(string))
+  #     users = optional(list(string))
+  #   }))
+  #   deployment_branch_policy = optional(object({
+  #     protected_branches     = bool
+  #     custom_branch_policies = bool
+  #   }))
+  # }))
+
+  default = []
+
+  # Example:
+  # environments = [
+  #   {
+  #     name                = "production"
+  #     wait_timer          = 30
+  #     can_admins_bypass   = false
+  #     prevent_self_review = true
+  #     reviewers = {
+  #       teams = ["12345"]
+  #       users = ["67890"]
+  #     }
+  #     deployment_branch_policy = {
+  #       protected_branches     = true
+  #       custom_branch_policies = false
+  #     }
+  #   },
+  #   {
+  #     name = "staging"
+  #   }
+  # ]
+}
+
+variable "environment_deployment_policies" {
+  description = "(Optional) A list of deployment branch/tag policies for environments. Requires custom_branch_policies = true on the corresponding environment."
+  type        = any
+
+  # type = list(object({
+  #   environment    = string
+  #   branch_pattern = optional(string)
+  #   tag_pattern    = optional(string)
+  # }))
+
+  default = []
+
+  # Example:
+  # environment_deployment_policies = [
+  #   {
+  #     environment    = "production"
+  #     branch_pattern = "main"
+  #   },
+  #   {
+  #     environment = "production"
+  #     tag_pattern = "v*"
+  #   }
+  # ]
+}
+
+variable "environment_plaintext_secrets" {
+  description = "(Optional) A map of environment secrets (plaintext). Key format: 'environment_name:secret_name'."
+  type        = map(string)
+
+  # Example:
+  # environment_plaintext_secrets = {
+  #   "production:API_KEY"   = "secret-value"
+  #   "staging:DATABASE_URL" = "postgres://..."
+  # }
+
+  default = {}
+}
+
+variable "environment_encrypted_secrets" {
+  description = "(Optional) A map of environment secrets (encrypted). Key format: 'environment_name:secret_name'."
+  type        = map(string)
+
+  # Example:
+  # environment_encrypted_secrets = {
+  #   "production:MY_ENCRYPTED_SECRET" = "MTIzNDU="
+  # }
+
+  default = {}
+}
+
+variable "environment_variables" {
+  description = "(Optional) A map of environment variables. Key format: 'environment_name:variable_name'."
+  type        = map(string)
+
+  # Example:
+  # environment_variables = {
+  #   "production:REGION"    = "us-east-1"
+  #   "staging:LOG_LEVEL"    = "debug"
+  # }
+
+  default = {}
 }
 
 # ------------------------------------------------------------------------------
