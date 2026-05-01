@@ -109,7 +109,7 @@ variable "defaults" {
 }
 
 variable "web_commit_signoff_required" {
-  description = "Require commit signoff for web commit. (Default: false). Set to null to inherit from org settings"
+  description = "Require commit signoff for web commit. (Default: true). Set to null to inherit from org settings"
   type        = bool
   default     = true
 }
@@ -123,7 +123,7 @@ variable "has_downloads" {
 variable "auto_init" {
   description = "(Optional) Whether or not to produce an initial commit in the repository. (Default: true)"
   type        = bool
-  default     = null
+  default     = true
 }
 
 variable "pages" {
@@ -144,7 +144,7 @@ variable "gitignore_template" {
 }
 
 variable "is_template" {
-  description = "(Optional) Whether or not to tell GitHub that this is a template repository. ( Default: false)"
+  description = "(Optional) Whether or not to tell GitHub that this is a template repository. ( Default: null)"
   type        = bool
   default     = null
 }

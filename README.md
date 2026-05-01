@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2020-2022 Mineiros GmbH <hello@mineiros.io>
-SPDX-FileCopyrightText: 2025 Radek Janik <cyberwassp@gmail.com>
+SPDX-FileCopyrightText: 2025-2026 Radek Janik <cyberwassp@gmail.com>
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -62,7 +62,7 @@ Most basic usage creating a new private GitHub repository:
 
 ```hcl
 module "repository" {
-  source  = "rad-jan/repository/github"
+  source  = "w4sp0/repository/github"
   version = "~> 0.18.5"
 
   name               = "terraform-github-repository"
@@ -101,7 +101,7 @@ For comprehensive documentation on module arguments, outputs, and advanced confi
 
 ```hcl
 module "repository" {
-  source = "rad-jan/repository/github"
+  source = "w4sp0/repository/github"
 
   name = "my-repo"
 
@@ -120,7 +120,7 @@ module "repository" {
 
 ```hcl
 module "repository" {
-  source = "rad-jan/repository/github"
+  source = "w4sp0/repository/github"
 
   name = "my-repo"
 
